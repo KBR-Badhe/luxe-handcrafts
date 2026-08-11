@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUXÉ Handcrafts</title>
+<style>
+:root{--gold:#d4af37;--cream:#f6f0df;--black:#0b0b0b;--card:#151515;--muted:#b9b1a0}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,sans-serif;background:var(--black);color:var(--cream)}
+header{position:sticky;top:0;z-index:10;background:rgba(11,11,11,.94);backdrop-filter:blur(10px);border-bottom:1px solid #29231a}
+nav{max-width:1150px;margin:auto;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-family:Georgia,serif;font-size:25px;letter-spacing:3px;color:var(--gold);font-weight:bold}
+nav a{color:var(--cream);text-decoration:none;margin-left:18px;font-size:14px}nav a:hover{color:var(--gold)}
+.hero{min-height:78vh;display:grid;place-items:center;text-align:center;padding:70px 20px;background:radial-gradient(circle at 50% 30%,#3b301b 0,#15120d 22%,#0b0b0b 60%)}
+.hero h1{font-family:Georgia,serif;font-size:clamp(46px,8vw,92px);margin:10px 0;color:var(--gold);letter-spacing:5px}
+.hero p{max-width:650px;margin:0 auto 28px;color:#ddd2bb;font-size:18px;line-height:1.6}
+.btn{display:inline-block;border:1px solid var(--gold);background:var(--gold);color:#090909;padding:13px 22px;border-radius:2px;font-weight:bold;cursor:pointer;text-decoration:none}.btn:hover{background:#f0d36a}
+section{max-width:1150px;margin:auto;padding:75px 22px}h2{font-family:Georgia,serif;text-align:center;font-size:38px;color:var(--gold);margin:0 0 12px}.sub{text-align:center;color:var(--muted);margin-bottom:38px}
+.controls{display:flex;gap:12px;justify-content:center;margin-bottom:30px;flex-wrap:wrap}.controls input,.controls select,form input,form textarea{background:#111;border:1px solid #3a3328;color:var(--cream);padding:13px;border-radius:3px}.controls input{width:min(430px,90vw)}.controls select{width:170px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}.card{background:var(--card);border:1px solid #2b261e;padding:14px;border-radius:8px;box-shadow:0 10px 30px #0006}.pic{height:210px;border-radius:5px;display:grid;place-items:center;font-size:58px;background:linear-gradient(135deg,#2c2415,#111)}.card h3{font-family:Georgia,serif;margin:15px 0 6px}.price{color:var(--gold);font-weight:bold}.card p{color:var(--muted);font-size:14px;line-height:1.5}.card button{width:100%;margin-top:8px}
+.cart{position:fixed;right:20px;bottom:20px;z-index:20;background:var(--gold);color:#111;border:0;border-radius:50px;padding:14px 19px;font-weight:bold;cursor:pointer;box-shadow:0 8px 25px #0008}
+.panel{position:fixed;right:0;top:0;height:100%;width:min(400px,92vw);background:#121212;z-index:30;padding:24px;transform:translateX(105%);transition:.3s;box-shadow:-15px 0 40px #000}.panel.open{transform:translateX(0)}.panel h2{text-align:left;font-size:30px}.close{float:right;background:none;color:var(--cream);border:0;font-size:25px;cursor:pointer}.item{display:flex;justify-content:space-between;border-bottom:1px solid #2c261d;padding:12px 0}.total{font-size:20px;margin:20px 0;color:var(--gold)}
+form{max-width:650px;margin:auto;display:grid;gap:12px}textarea{min-height:120px;resize:vertical}
+.review{background:#151515;border:1px solid #2b261e;padding:20px;border-radius:7px}.stars{color:var(--gold);letter-spacing:3px}
+footer{text-align:center;padding:35px 20px;border-top:1px solid #29231a;color:#8e8779}small{color:#777}
+.notice{display:none;text-align:center;color:var(--gold);margin-top:15px}.empty{color:var(--muted);text-align:center}
+@media(max-width:700px){nav a{display:none}.hero{min-height:70vh}}
+</style>
+</head>
+<body>
+<header><nav>
+<div class="logo">LUXÉ</div>
+<div><a href="#home">Home</a><a href="#shop">Shop</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a></div>
+</nav></header>
+
+<main id="home">
+<section class="hero">
+<div><small>HANDCRAFTED • LIMITED • TIMELESS</small><h1>LUXÉ HANDCRAFTS</h1><p>Where craftsmanship becomes luxury. Discover elegant handmade creations made with care, character, and attention to detail.</p><a class="btn" href="#shop">EXPLORE COLLECTION</a></div>
+</section>
+
+<section id="shop">
+<h2>Our Collection</h2><p class="sub">Find something beautifully made, just for you.</p>
+<div class="controls"><input id="search" placeholder="Search handmade products..." oninput="renderProducts()"><select id="category" onchange="renderProducts()"><option value="all">All categories</option><option value="jewelry">Jewelry</option><option value="decor">Decor</option><option value="gifts">Gifts</option></select></div>
+<div id="products" class="grid"></div>
+</section>
+
+<section id="reviews">
+<h2>Customer Reviews</h2><p class="sub">What our customers say</p>
+<div id="reviewList" class="grid">
+<div class="review"><div class="stars">★★★★★</div><p>“Beautiful craftsmanship and an incredibly premium finish.”</p><small>— Aanya</small></div>
+<div class="review"><div class="stars">★★★★★</div><p>“The perfect handmade gift. Elegant and unique.”</p><small>— Rohan</small></div>
+</div>
+<form id="reviewForm" style="margin-top:30px">
+<input id="reviewName" required placeholder="Your name">
+<textarea id="reviewText" required placeholder="Write your review..."></textarea>
+<button class="btn" type="submit">POST REVIEW</button>
+</form>
+</section>
+
+<section id="contact">
+<h2>Contact Us</h2><p class="sub">Have a question or a custom request?</p>
+<form id="contactForm">
+<input required placeholder="Your name">
+<input required type="email" placeholder="Your email">
+<textarea required placeholder="Your message"></textarea>
+<button class="btn" type="submit">SEND MESSAGE</button>
+<div class="notice" id="contactNotice">Message received! This demo form is ready to connect to a real backend.</div>
+</form>
+</section>
+</main>
+
+<button class="cart" onclick="toggleCart()">🛒 CART (<span id="count">0</span>)</button>
+<aside class="panel" id="cartPanel"><button class="close" onclick="toggleCart()">×</button><h2>Your Cart</h2><div id="cartItems"></div><div class="total" id="total">Total: ₹0</div>
+<form id="checkout"><input required placeholder="Full name"><input required placeholder="Delivery address"><input required type="tel" placeholder="Phone number"><button class="btn" type="submit">PLACE ORDER</button></form>
+<div class="notice" id="orderNotice">Order placed in demo mode! Connect a payment/order backend to accept real orders.</div>
+</aside>
+
+<footer>© 2026 LUXÉ HANDCRAFTS · Made by hand. Designed to impress.</footer>
+
+<script>
+const products=[
+{id:1,name:"Golden Thread Earrings",cat:"jewelry",price:1299,icon:"✨",desc:"Elegant handmade earrings with a refined golden finish."},
+{id:2,name:"Royal Charm Bracelet",cat:"jewelry",price:1899,icon:"💫",desc:"A delicate handcrafted bracelet for special occasions."},
+{id:3,name:"Artisan Candle Set",cat:"decor",price:999,icon:"🕯️",desc:"Hand-poured decorative candles with a luxurious feel."},
+{id:4,name:"Handmade Memory Box",cat:"gifts",price:1499,icon:"🎁",desc:"A premium keepsake box for meaningful memories."},
+{id:5,name:"Golden Leaf Decor",cat:"decor",price:2199,icon:"🍂",desc:"Statement handcrafted décor inspired by nature."},
+{id:6,name:"Luxury Gift Hamper",cat:"gifts",price:2499,icon:"🎀",desc:"A curated handmade gift set for someone special."}
+];
+let cart=[];
+function money(n){return "₹"+n.toLocaleString("en-IN")}
+function renderProducts(){
+ const q=document.getElementById("search").value.toLowerCase(), c=document.getElementById("category").value;
+ const list=products.filter(p=>(c==="all"||p.cat===c)&&(p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q)));
+ document.getElementById("products").innerHTML=list.length?list.map(p=>`<article class="card"><div class="pic">${p.icon}</div><h3>${p.name}</h3><div class="price">${money(p.price)}</div><p>${p.desc}</p><button class="btn" onclick="add(${p.id})">ADD TO CART</button></article>`).join(""):'<p class="empty">No products found.</p>';
+}
+function add(id){let p=products.find(x=>x.id===id), item=cart.find(x=>x.id===id);item?item.qty++:cart.push({...p,qty:1});updateCart()}
+function updateCart(){
+ document.getElementById("count").textContent=cart.reduce((a,b)=>a+b.qty,0);
+ document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="item"><span>${x.name} × ${x.qty}</span><b>${money(x.price*x.qty)}</b></div>`).join(""):'<p class="empty">Your cart is empty.</p>';
+ document.getElementById("total").textContent="Total: "+money(cart.reduce((a,b)=>a+b.price*b.qty,0));
+}
+function toggleCart(){document.getElementById("cartPanel").classList.toggle("open")}
+document.getElementById("reviewForm").addEventListener("submit",e=>{e.preventDefault();let n=reviewName.value,t=reviewText.value;let d=document.createElement("div");d.className="review";d.innerHTML=`<div class="stars">★★★★★</div><p>“${t.replaceAll("<","&lt;").replaceAll(">","&gt;")}”</p><small>— ${n.replaceAll("<","&lt;")}</small>`;document.getElementById("reviewList").prepend(d);e.target.reset()});
+document.getElementById("contactForm").addEventListener("submit",e=>{e.preventDefault();document.getElementById("contactNotice").style.display="block";e.target.reset()});
+document.getElementById("checkout").addEventListener("submit",e=>{e.preventDefault();if(!cart.length){alert("Your cart is empty.");return}document.getElementById("orderNotice").style.display="block";cart=[];updateCart();e.target.reset()});
+renderProducts();updateCart();
+</script>
+</body>
+</html>
